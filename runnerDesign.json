@@ -1,0 +1,21 @@
+
+{
+ "_id" : "_design/runner",
+  "views" : {
+    "revs" : {
+      "map" : "function(doc){ emit(doc._id, doc._rev)}"
+    },
+    "all" : {
+      "map" : "function(doc){ emit(doc._id, [doc.type, doc.name, doc.employees]); }"
+    },   
+    "allrunners" : {
+      "map" : "function(doc){ if (doc.type == 'runner') { emit(doc._id, [doc.name, doc.age]); }}"
+    },
+    "allruns" : {
+      "map" : "function(doc){ if (doc.type == 'run') { emit(doc._id, [doc.runnerId, doc.date, doc.time, doc.distance]); }}"
+    },   
+    "runsByRunnerIdDate" : {
+      "map" : "function(doc){ if (doc.type == 'run') { emit([doc.runnerId,doc.date], [doc.runnerId, doc.date, doc.time, doc.distance]); }}"
+    }  
+  }
+}
